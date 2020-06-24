@@ -1,0 +1,467 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="ISO-8859-1">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+
+        <title>PHONE-SHOP HTML Template</title>
+
+        <!-- Google font -->
+        <link href="https://fonts.googleapis.com/css?family=Hind:400,700" rel="stylesheet">
+
+        <!-- Bootstrap -->
+        <link type="text/css" rel="stylesheet" href="css/bootstrap.min.css" />
+
+        <!-- Slick -->
+        <link type="text/css" rel="stylesheet" href="css/slick.css" />
+        <link type="text/css" rel="stylesheet" href="css/slick-theme.css" />
+
+        <!-- nouislider -->
+        <link type="text/css" rel="stylesheet" href="css/nouislider.min.css" />
+
+        <!-- Font Awesome Icon -->
+        <link rel="stylesheet" href="css/font-awesome.min.css">
+
+        <!-- Custom stlylesheet -->
+        <link type="text/css" rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+<header>
+      
+
+            <!-- header -->
+            <div id="header">
+                <div class="container">
+                    <div class="pull-left">
+                        <!-- Logo -->
+                        <div class="header-logo">
+                            <a class="logo" href="index.jsp">
+                                <img src="./img/logo.png" alt="">
+                            </a>
+                        </div>
+                        <!-- /Logo -->
+
+                        <!-- Search -->
+                        <div class="header-search">
+                            <form>
+                                <input class="input search-input" type="text" placeholder="Enter your keyword">
+                                <select class="input search-categories">
+                                    <option value="0">All Categories</option>
+                                    <option value="1">Category 01</option>
+                                    <option value="1">Category 02</option>
+                                </select>
+                                <button class="search-btn"><i class="fa fa-search"></i></button>
+                            </form>
+                        </div>
+                        <!-- /Search -->
+                    </div>
+                    <div class="pull-right">
+                        <ul class="header-btns">
+                            <!-- Account -->
+                            <c:set var="user" value="${sessionScope.USER}"/>
+                            <c:if test="${not empty user}">
+                                <li class="header-account dropdown default-dropdown">
+                                    <div class="dropdown-toggle" role="button" data-toggle="dropdown" aria-expanded="true">
+                                        <div class="header-btns-icon">
+                                            <i class="fa fa-user-o"></i>
+                                        </div>
+                                        <strong class="text-uppercase">${user[0].getHoten()} <i class="fa fa-caret-down"></i></strong>
+                                    </div>
+                                    <ul class="custom-menu">
+                                        <li><a href="#"><i class="fa fa-user-o"></i> My Account</a></li>
+                                        <li><a href="#"><i class="fa fa-heart-o"></i> My Wishlist</a></li>
+                                        <li><a href="#"><i class="fa fa-exchange"></i> Compare</a></li>
+                                        <li><a href="#"><i class="fa fa-check"></i> Checkout</a></li>
+                                        <li><a href="removeuserServlet"><i class="fa fa-user-plus"></i> Log out</a></li>
+                                    </ul>
+                                </li>
+                            </c:if>
+                            <c:if test="${empty user}">
+                                <li class="header-account dropdown default-dropdown">
+                                    <div class="dropdown-toggle" role="button" data-toggle="dropdown" aria-expanded="true">
+                                        <div class="header-btns-icon">
+                                            <i class="fa fa-user-o"></i>
+                                        </div>
+                                        <strong class="text-uppercase">My Account <i class="fa fa-caret-down"></i></strong>
+                                    </div>
+                                    <a href="login.jsp" class="text-uppercase">Login</a> / <a href="#" class="text-uppercase">Join</a>
+                                    <ul class="custom-menu">
+                                        <li><a href="#"><i class="fa fa-user-o"></i> My Account</a></li>
+                                        <li><a href="#"><i class="fa fa-heart-o"></i> My Wishlist</a></li>
+                                        <li><a href="#"><i class="fa fa-exchange"></i> Compare</a></li>
+                                        <li><a href="#"><i class="fa fa-check"></i> Checkout</a></li>
+                                        <li><a href="login.jsp"><i class="fa fa-unlock-alt"></i> Login</a></li>
+                                        <li><a href="#"><i class="fa fa-user-plus"></i> Create An Account</a></li>
+                                    </ul>
+                                </li>
+                            </c:if>
+                            <!-- /Account -->
+
+                            <!-- Cart -->
+                            <li class="header-cart dropdown default-dropdown">
+                                <a class="dropdown-toggle" data-toggle="dropdown" aria-expanded="true">
+                                    <c:set var="shop" value="${sessionScope.SHOP}"/>
+                                    <div class="header-btns-icon">
+                                        <i class="fa fa-shopping-cart"></i>
+                                        <span class="qty">3</span>
+                                    </div>
+                                    <strong class="text-uppercase">My Cart:</strong>
+                                    <br>
+                                    <span><!-- tong tien --></span>
+                                </a>
+                                <div class="custom-menu">
+                                    <c:if test="${not empty shop}">
+                                        <c:set var="count" value="0" />
+                                        <div id="shopping-cart">
+                                            <c:forEach var="rows" items="${shop}">
+                                                <c:set var="count" value="${count + 1}" />
+                                                <div class="shopping-cart-list">
+                                                    <div class="product product-widget">
+                                                        <div class="product-thumb">
+                                                            <img src="./img/${rows.value.sanpham.hinh}" alt="">
+                                                        </div>
+                                                        <div class="product-body">
+                                                            <h3 class="product-price">${rows.value.sanpham.gia} <span class="qty">${rows.value.quantity}</span></h3>
+                                                            <h2 class="product-name"><a href="#">${rows.value.sanpham.tenSP}</a></h2>
+                                                        </div>
+                                                        <button class="cancel-btn"><i class="fa fa-trash"></i></button>
+                                                    </div>
+                                                </div>
+                                            </c:forEach>
+                                            <div class="shopping-cart-btns">
+                                                <button class="main-btn">View Cart</button>
+                                                <a href="checkout.jsp" class="primary-btn">Checkout<i class="fa fa-arrow-circle-right"></i></a>
+                                            </div>
+                                        </div>   
+                                    </c:if>
+                                    <c:if test="${empty shop}">
+                                        <p>Your cart is empty!!!!</p>
+                                    </c:if>
+                                </div>
+                            </li>
+                            <!-- /Cart -->
+
+                            <!-- Mobile nav toggle-->
+                            <li class="nav-toggle">
+                                <button class="nav-toggle-btn main-btn icon-btn"><i class="fa fa-bars"></i></button>
+                            </li>
+                            <!-- / Mobile nav toggle -->
+                        </ul>
+                    </div>
+                </div>
+                <!-- header -->
+            </div>
+            <!-- container -->
+        </header>
+        <!-- /HEADER -->
+
+        <!-- NAVIGATION -->
+        <div id="navigation">
+            <!-- container -->
+            <div class="container">
+                <div id="responsive-nav">
+                    <!-- category nav -->
+                    <div class="category-nav show-on-click">
+                        <span class="category-header">Categories <i class="fa fa-list"></i></span>
+                        <ul class="category-list">
+                            <li class="dropdown side-dropdown">
+                                <a class="dropdown-toggle" data-toggle="dropdown" aria-expanded="true">Iphone <i class="fa fa-angle-right"></i></a>
+                                <div class="custom-menu">
+                                    <div class="row">
+                                        <div class="col-md-4">
+                                            <ul class="list-links">
+                                                <li>
+                                                    <h3 class="list-links-title">Categories</h3></li>
+                                                <li><a href="productinformation.jsp">Iphone</a></li>
+                                                <li><a href="productinformation.jsp">Samsung</a></li>
+                                                <li><a href="productinformation.jsp">Oppo</a></li>
+                                                <li><a href="productinformation.jsp">Xiaomi</a></li>
+                                                <li><a href="productinformation.jsp">Huawei</a></li>
+                                            </ul>
+                                            <hr class="hidden-md hidden-lg">
+                                        </div>
+                                        <div class="col-md-4">
+                                            <ul class="list-links">
+                                                <li>
+                                                    <h3 class="list-links-title">Categories</h3></li>
+                                                <li><a href="productinformation.jsp">Iphone</a></li>
+                                                <li><a href="productinformation.jsp">Samsung</a></li>
+                                                <li><a href="productinformation.jsp">Oppo</a></li>
+                                                <li><a href="productinformation.jsp">Xiaomi</a></li>
+                                                <li><a href="productinformation.jsp">Huawei</a></li>
+                                            </ul>
+                                            <hr class="hidden-md hidden-lg">
+                                        </div>
+                                        <div class="col-md-4">
+                                            <ul class="list-links">
+                                                <li>
+                                                    <h3 class="list-links-title">Categories</h3></li>
+                                                <li><a href="productinformation.jsp">Iphone</a></li>
+                                                <li><a href="productinformation.jsp">Samsung</a></li>
+                                                <li><a href="productinformation.jsp">Oppo</a></li>
+                                                <li><a href="productinformation.jsp">Xiaomi</a></li>
+                                                <li><a href="productinformation.jsp">Huawei</a></li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                    <div class="row hidden-sm hidden-xs">
+                                        <div class="col-md-12">
+                                            <hr>
+                                            <a class="banner banner-1" href="#">
+                                                <img src="./img/banner01.jpg" alt="">
+                                                <div class="banner-caption text-center">
+                                                    <h2 class="white-color">NEW COLLECTION</h2>
+                                                    <h3 class="white-color font-weak">HOT DEAL</h3>
+                                                </div>
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </li>
+                            <li><a href="#">Samsung</a></li>
+                            <li class="dropdown side-dropdown"><a class="dropdown-toggle" data-toggle="dropdown" aria-expanded="true">Oppo<i class="fa fa-angle-right"></i></a>
+                                <div class="custom-menu">
+                                    <div class="row">
+                                        <div class="col-md-4">
+                                            <ul class="list-links">
+                                                <li>
+                                                    <h3 class="list-links-title">Categories</h3></li>
+                                                <li><a href="productinformation.jsp">Iphone</a></li>
+                                                <li><a href="productinformation.jsp">Samsung</a></li>
+                                                <li><a href="productinformation.jsp">Oppo</a></li>
+                                                <li><a href="productinformation.jsp">Xiaomi</a></li>
+                                                <li><a href="productinformation.jsp">Huawei</a></li>
+                                            </ul>
+                                            <hr>
+                                            <ul class="list-links">
+                                                <li>
+                                                    <h3 class="list-links-title">Categories</h3></li>
+                                                <li><a href="productinformation.jsp">Iphone</a></li>
+                                                <li><a href="productinformation.jsp">Samsung</a></li>
+                                                <li><a href="productinformation.jsp">Oppo</a></li>
+                                                <li><a href="productinformation.jsp">Xiaomi</a></li>
+                                                <li><a href="productinformation.jsp">Huawei</a></li>
+                                            </ul>
+                                            <hr class="hidden-md hidden-lg">
+                                        </div>
+                                        <div class="col-md-4">
+                                            <ul class="list-links">
+                                                <li>
+                                                    <h3 class="list-links-title">Categories</h3></li>
+                                                <li><a href="productinformation.jsp">Iphone</a></li>
+                                                <li><a href="productinformation.jsp">Samsung</a></li>
+                                                <li><a href="productinformation.jsp">Oppo</a></li>
+                                                <li><a href="productinformation.jsp">Xiaomi</a></li>
+                                                <li><a href="productinformation.jsp">Huawei</a></li>
+                                            </ul>
+                                            <hr>
+                                            <ul class="list-links">
+                                                <li>
+                                                    <h3 class="list-links-title">Categories</h3></li>
+                                                <li><a href="productinformation.jsp">Iphone</a></li>
+                                                <li><a href="productinformation.jsp">Samsung</a></li>
+                                                <li><a href="productinformation.jsp">Oppo</a></li>
+                                                <li><a href="productinformation.jsp">Xiaomi</a></li>
+                                                <li><a href="productinformation.jsp">Huawei</a></li>
+                                            </ul>
+                                        </div>
+                                        <div class="col-md-4 hidden-sm hidden-xs">
+                                            <a class="banner banner-2" href="#">
+                                                <img src="./img/banner04.jpg" alt="">
+                                                <div class="banner-caption">
+                                                    <h3 class="white-color">NEW<br>COLLECTION</h3>
+                                                </div>
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </li>
+                            <li><a href="productinformation.jsp">Huawei</a></li>
+                            <li><a href="productinformation.jsp">Xiaomi</a></li>
+                        </ul>
+                    </div>
+                    <!-- /category nav -->
+
+                    <!-- menu nav -->
+                    <div class="menu-nav">
+                        <span class="menu-header">Menu <i class="fa fa-bars"></i></span>
+                        <ul class="menu-list">
+                               <li><a href="index">Home</a></li>
+                            <li><a href="productinformation">Cart</a></li>
+                            <!-- <li class="dropdown mega-dropdown"><a class="dropdown-toggle" data-toggle="dropdown" aria-expanded="true">Iphone <i class="fa fa-caret-down"></i></a>
+                            </li>
+                            <li class="dropdown mega-dropdown full-width"><a class="dropdown-toggle" data-toggle="dropdown" aria-expanded="true">Samsung <i class="fa fa-caret-down"></i></a>
+                            </li -->>
+                           <li><a href="product">Products</a></li>
+						<li><a href="contact">Contact</a></li>
+                            <li class="dropdown default-dropdown"><a class="dropdown-toggle" data-toggle="dropdown" aria-expanded="true">More<i class="fa fa-caret-down"></i></a>
+                                <ul class="custom-menu">
+                                    <li><a href="type">Category</a></li>
+                                    <li><a href="customer">Customer</a></li>
+                                    <li><a href="employee">Employee</a></li>
+                                    <li><a href="roduct">Product</a></li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </div>
+                    <!-- menu nav -->
+                </div>
+            </div>
+            <!-- /container -->
+        </div>
+
+        <!-- BREADCRUMB -->
+        <div id="breadcrumb">
+            <div class="container">
+                <ul class="breadcrumb">
+                    <li><a href="index">Home</a></li>
+                    <li class="active">Blank</li>
+                </ul>
+            </div>
+        </div>
+        <!-- /BREADCRUMB -->
+
+        <!-- section -->
+        <div class="section">
+            <!-- container -->
+            <div class="container">
+                <!-- row -->
+                <div class="row">
+                    <p>
+                        <strong>Contact us At:</strong>
+                    <ul>
+                        <li>Email us: thuylttphk15@gmail.com</li>
+                        <li>Phone Number: +84 358697891</li>
+                        <li>Our Address: xã Minh Quang, huyện Ba Vì, TP Hà Nội</li>
+                    </ul>
+                    </p>
+                    <div style="overflow:hidden;width: 700px;position: relative;">
+                        <iframe width="700" height="440" src="https://maps.google.com/maps?width=700&amp;height=440&amp;hl=en&amp;q=To%C3%A0%20nh%C3%A0%20Innovation%2C%20l%C3%B4%2024%2C%20C%C3%B4ng%20vi%C3%AAn%20ph%E1%BA%A7n%20m%E1%BB%81m%20Quang%20Trung%2C%20Qu%E1%BA%ADn%2012%2C%20H%E1%BB%93%20Ch%C3%AD%20Minh+(Title)&amp;ie=UTF8&amp;t=&amp;z=16&amp;iwloc=B&amp;output=embed" frameborder="0" scrolling="no" marginheight="0" marginwidth="0"></iframe><div style="position: absolute;width: 80%;bottom: 10px;left: 0;right: 0;margin-left: auto;margin-right: auto;color: #000;text-align: center;"><small style="line-height: 1.8;font-size: 2px;background: #fff;">
+                                Powered by <a href="https://embedgooglemaps.com/de/">Embedgooglemaps.com/de/</a> & 
+                                <a href="http://intramarketresearch.org/">www.intramarketresearch.org</a></small></div><style>#gmap_canvas img{max-width:none!important;background:none!important}</style></div><br />
+
+                   
+                </div>
+                <!-- /row -->
+            </div>
+            <!-- /container -->
+        </div>
+        <!-- /section -->
+
+        <!-- FOOTER -->
+        <footer id="footer" class="section section-grey">
+            <!-- container -->
+            <div class="container">
+                <!-- row -->
+                <div class="row">
+                    <!-- footer widget -->
+                    <div class="col-md-3 col-sm-6 col-xs-6">
+                        <div class="footer">
+                            <!-- footer logo -->
+                            <div class="footer-logo">
+                                <a class="logo" href="#">
+                                    <img src="./img/logo.png" alt="">
+                                </a>
+                            </div>
+                            <!-- /footer logo -->
+
+                            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna</p>
+
+                            <!-- footer social -->
+                            <ul class="footer-social">
+                                <li><a href="#"><i class="fa fa-facebook"></i></a></li>
+                                <li><a href="#"><i class="fa fa-twitter"></i></a></li>
+                                <li><a href="#"><i class="fa fa-instagram"></i></a></li>
+                                <li><a href="#"><i class="fa fa-google-plus"></i></a></li>
+                                <li><a href="#"><i class="fa fa-pinterest"></i></a></li>
+                            </ul>
+                            <!-- /footer social -->
+                        </div>
+                    </div>
+                    <!-- /footer widget -->
+
+                    <!-- footer widget -->
+                    <div class="col-md-3 col-sm-6 col-xs-6">
+                        <div class="footer">
+                            <h3 class="footer-header">My Account</h3>
+                            <ul class="list-links">
+                                <li><a href="#">My Account</a></li>
+                                <li><a href="#">My Wishlist</a></li>
+                                <li><a href="#">Compare</a></li>
+                                <li><a href="#">Checkout</a></li>
+                                <li><a href="#">Login</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                    <!-- /footer widget -->
+
+                    <div class="clearfix visible-sm visible-xs"></div>
+
+                    <!-- footer widget -->
+                    <div class="col-md-3 col-sm-6 col-xs-6">
+                        <div class="footer">
+                            <h3 class="footer-header">Customer Service</h3>
+                            <ul class="list-links">
+                                <li><a href="#">About Us</a></li>
+                                <li><a href="#">Shiping & Return</a></li>
+                                <li><a href="#">Shiping Guide</a></li>
+                                <li><a href="#">FAQ</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                    <!-- /footer widget -->
+
+                    <!-- footer subscribe -->
+                    <div class="col-md-3 col-sm-6 col-xs-6">
+                        <div class="footer">
+                            <h3 class="footer-header">Stay Connected</h3>
+                            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor.</p>
+                            <form>
+                                <div class="form-group">
+                                    <input class="input" placeholder="Enter Email Address">
+                                </div>
+                                <button class="primary-btn">Join Newslatter</button>
+                            </form>
+                        </div>
+                    </div>
+                    <!-- /footer subscribe -->
+                </div>
+                <!-- /row -->
+                <hr>
+                <!-- row -->
+                <div class="row">
+                    <div class="col-md-8 col-md-offset-2 text-center">
+                        <!-- footer copyright -->
+                        <div class="footer-copyright">
+                            <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
+                            Copyright &copy;<script>document.write(new Date().getFullYear());</script> All rights reserved | This template is made with <i class="fa fa-heart-o" aria-hidden="true"></i> by <a href="https://colorlib.com" target="_blank">Colorlib</a>
+                            <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
+                        </div>
+                        <!-- /footer copyright -->
+                    </div>
+                </div>
+                <!-- /row -->
+            </div>
+            <!-- /container -->
+        </footer>
+        <!-- /FOOTER -->
+
+        <!-- jQuery Plugins -->
+        <script src="js/jquery.min.js"></script>
+        <script src="js/bootstrap.min.js"></script>
+        <script src="js/slick.min.js"></script>
+        <script src="js/nouislider.min.js"></script>
+        <script src="js/jquery.zoom.min.js"></script>
+        <script src="js/main.js"></script>
+        <script defer > window.onload = function () {
+                                        setTimeout(() => {
+                                            var chatJsElement = document.createElement("script");
+                                            chatJsElement.src = "https://app.ohchat.net/clients/42784/code.php";
+                                            chatJsElement.setAttribute("defer", "defer");
+                                            document.getElementsByTagName("body")[0].appendChild(chatJsElement);
+                                        }, 300)
+                                    };</script>
+</body>
+</html>
